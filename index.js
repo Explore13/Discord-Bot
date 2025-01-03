@@ -1,10 +1,23 @@
-import express from "express";
+import { Client, Events, GatewayIntentBits } from "discord.js";
+import dotenv from "dotenv";
 
-const app = express();
-
-app.get("/", (req, res) => {
-    res.send("Hello World");
-})
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+dotenv.config({
+  path: "./.env",
 });
+
+const client = new Client({
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+});
+
+client.on("messageCreate", (message) => {
+  console.log(message.author.globalName, message.content);
+  if(message.author.bot) return;
+  message.reply(`Hello ${message.author.globalName}`);
+});
+
+client.on('interactionCreate',interaction=>{
+  console.log(interaction);
+  
+})
+
+client.login(process.env.DISCORD_TOKEN);
