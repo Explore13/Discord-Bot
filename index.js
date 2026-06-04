@@ -6,18 +6,22 @@ dotenv.config({
 });
 
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
 });
 
 client.on("messageCreate", (message) => {
   console.log(message.author.globalName, message.content);
-  if(message.author.bot) return;
+  if (message.author.bot) return;
   message.reply(`Hello ${message.author.globalName}`);
 });
 
-client.on('interactionCreate',interaction=>{
+client.on("interactionCreate", (interaction) => {
   console.log(interaction);
-  
-})
+  interaction.reply("Pong!");
+});
 
 client.login(process.env.DISCORD_TOKEN);
